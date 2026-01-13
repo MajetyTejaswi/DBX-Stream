@@ -109,7 +109,6 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment:
       name: production
-      url: ${{ secrets.DATABRICKS_HOST }}
     
     steps:
       - name: Checkout code
