@@ -40,7 +40,7 @@ jobs:
           fi
           
           echo "Triggering Databricks job ID: $JOB_ID"
-          databricks jobs run-now --job-id $JOB_ID
+          databricks jobs run-now $JOB_ID
       
       - name: Notify Success
         if: success()
