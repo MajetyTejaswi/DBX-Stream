@@ -189,13 +189,6 @@ FROM your_catalog.silver.sensor_data_silver;
 - Increase cluster size in `job_raw_to_silver.yml`
 - Enable auto-scaling
 
-## Environment Configuration
-
-| Environment | Branch   | Catalog         | Deploy Target |
-|-------------|----------|-----------------|---------------|
-| Development | develop  | dev_catalog     | dev           |
-| Staging     | PR→main  | staging_catalog | staging       |
-| Production  | main     | prod_catalog    | prod          |
 
 ## Additional Resources
 
@@ -203,7 +196,3 @@ FROM your_catalog.silver.sensor_data_silver;
 - [Unity Catalog](https://docs.databricks.com/data-governance/unity-catalog/index.html)
 - [Databricks Asset Bundles](https://docs.databricks.com/dev-tools/bundles/index.html)
 - [Delta Lake](https://docs.delta.io/)
-
-## License
-
-MIT License

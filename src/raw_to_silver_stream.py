@@ -189,7 +189,7 @@ def main():
     """Main entry point for the streaming job"""
     
     # Configuration - Update these values according to your Databricks setup
-    CATALOG_NAME = "your_catalog_name"  # Replace with your catalog name
+    CATALOG_NAME = "classic_workspace"  # Replace with your catalog name
     RAW_SCHEMA = "raw"  # Your raw/bronze schema name
     SILVER_SCHEMA = "silver"  # Your silver schema name
     
