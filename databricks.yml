@@ -1,0 +1,88 @@
+# Databricks Asset Bundle Configuration
+# This file defines the deployment configuration for the streaming pipeline
+
+bundle:
+  name: "databricks-uc-raw-to-silver-streaming"
+  
+# Workspace configuration
+workspace:
+  host: "https://dbc-7101cfa0-6f12.cloud.databricks.com"
+  root_path: "~/.bundle/${bundle.name}/${bundle.target}"
+
+# Include resources
+include:
+  - resources/*.yml
+
+# Targets for different environments
+targets:
+  # Development environment
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: "https://dbc-7101cfa0-6f12.cloud.databricks.com"
+      root_path: "~/.bundle/${bundle.name}/dev"
+    
+    variables:
+      catalog_name: "classic_workspace"
+      raw_schema: "raw"
+      silver_schema: "silver"
+    
+    resources:
+      jobs:
+        raw_to_silver_streaming_job:
+          name: "[DEV] Raw to Silver Streaming Pipeline"
+          tags:
+            environment: "development"
+  
+  # Staging environment
+  staging:
+    mode: production
+    workspace:
+      host: "https://dbc-7101cfa0-6f12.cloud.databricks.com"
+      root_path: "~/.bundle/${bundle.name}/staging"
+    
+    variables:
+      catalog_name: "classic_workspace"
+      raw_schema: "raw"
+      silver_schema: "silver"
+    
+    resources:
+      jobs:
+        raw_to_silver_streaming_job:
+          name: "[STAGING] Raw to Silver Streaming Pipeline"
+          tags:
+            environment: "staging"
+          permissions:
+            - level: CAN_VIEW
+              group_name: "data-team"
+  
+  # Production environment
+  prod:
+    mode: production
+    workspace:
+      host: "https://dbc-7101cfa0-6f12.cloud.databricks.com"
+      root_path: "~/.bundle/${bundle.name}/prod"
+    
+    variables:
+      catalog_name: "classic_workspace"
+      raw_schema: "raw"
+      silver_schema: "silver"
+    
+    resources:
+      jobs:
+        raw_to_silver_streaming_job:
+          name: "[PROD] Raw to Silver Streaming Pipeline"
+          tags:
+            environment: "production"
+          permissions:
+            - level: CAN_VIEW
+              group_name: "data-team"
+            - level: CAN_MANAGE
+              group_name: "data-engineering-team"
+          
+          # Production-specific configurations
+          email_notifications:
+            on_failure:
+              - "data-engineering@example.com"
+              - "alerts@example.com"

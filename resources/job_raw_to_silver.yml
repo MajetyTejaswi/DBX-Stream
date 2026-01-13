@@ -1,0 +1,84 @@
+resources:
+  jobs:
+    raw_to_silver_streaming_job:
+      name: "Raw to Silver Streaming Pipeline"
+      
+      # Job configuration
+      description: "Streaming pipeline to process sensor data from raw/bronze to silver layer with data quality checks"
+      
+      # Compute cluster configuration
+      job_clusters:
+        - job_cluster_key: "streaming_cluster"
+          new_cluster:
+            spark_version: "13.3.x-scala2.12"
+            node_type_id: "i3.xlarge"  # Update based on your cloud provider
+            num_workers: 2
+            spark_conf:
+              "spark.databricks.delta.preview.enabled": "true"
+              "spark.sql.adaptive.enabled": "true"
+              "spark.databricks.delta.optimizeWrite.enabled": "true"
+              "spark.databricks.delta.autoCompact.enabled": "true"
+            autoscale:
+              min_workers: 1
+              max_workers: 4
+            data_security_mode: "USER_ISOLATION"
+      
+      # Task definition
+      tasks:
+        - task_key: "stream_raw_to_silver"
+          job_cluster_key: "streaming_cluster"
+          
+          spark_python_task:
+            python_file: "../src/raw_to_silver_stream.py"
+          
+          # Alternative: use python_wheel_task for packaged deployment
+          # Uncomment below and comment out spark_python_task if using wheel
+          # python_wheel_task:
+          #   package_name: "raw_to_silver_stream"
+          #   entry_point: "main"
+          
+          libraries:
+            - pypi:
+                package: "delta-spark"
+          
+          # Timeout and retry configuration
+          timeout_seconds: 0  # 0 means no timeout (continuous streaming)
+          max_retries: 2
+          min_retry_interval_millis: 60000
+          retry_on_timeout: false
+      
+      # Schedule configuration (optional - remove if you want continuous streaming)
+      # schedule:
+      #   quartz_cron_expression: "0 0 * * * ?"  # Run daily at midnight
+      #   timezone_id: "UTC"
+      #   pause_status: "UNPAUSED"
+      
+      # Email notifications
+      email_notifications:
+        on_start: []
+        on_success: []
+        on_failure:
+          - "majetytejaswi@gmail.com"  # Update with your email
+        no_alert_for_skipped_runs: false
+      
+      # Webhook notifications (optional)
+      # webhook_notifications:
+      #   on_failure:
+      #     - id: "webhook-id"
+      
+      # Access control (optional)
+      # access_control_list:
+      #   - user_name: "user@example.com"
+      #     permission_level: "CAN_MANAGE"
+      
+      # Tags for organization
+      tags:
+        environment: "production"
+        pipeline: "raw_to_silver"
+        team: "data_engineering"
+      
+      # Maximum concurrent runs
+      max_concurrent_runs: 1
+      
+      # Format
+      format: "MULTI_TASK"
