@@ -3,6 +3,18 @@
 
 bundle:
   name: "databricks-uc-raw-to-silver-streaming"
+
+# Define variables
+variables:
+  catalog_name:
+    description: "Unity Catalog name"
+    default: "classic_workspace"
+  raw_schema:
+    description: "Raw/Bronze schema name"
+    default: "raw"
+  silver_schema:
+    description: "Silver schema name"
+    default: "silver"
   
 # Workspace configuration
 workspace:
