@@ -41,7 +41,7 @@ class RawToSilverStream:
         # Table names
         self.raw_table = f"{self.catalog_name}.{self.raw_schema}.iot_sensor_landing_layer"
         self.silver_table = f"{self.catalog_name}.{self.silver_schema}.iot_sensor_silver"
-        # Use Unity Catalog managed location for checkpoints (public DBFS root is disabled)
+        # Use Unity Catalog volume for checkpoints (must be created manually first)
         self.checkpoint_path = f"/Volumes/{self.catalog_name}/{self.silver_schema}/checkpoints/iot_sensor_silver"
         
     def define_schema(self):
@@ -150,7 +150,7 @@ class RawToSilverStream:
         logger.info(f"Writing stream to {self.silver_table}...")
         logger.info("Silver table will be created automatically if it doesn't exist")
         
-        # Write to Delta table with checkpointing
+        # Write to Delta table with Unity Catalog volume checkpoint
         query = (
             df.writeStream
             .format("delta")
