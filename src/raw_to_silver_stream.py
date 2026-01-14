@@ -41,7 +41,7 @@ class RawToSilverStream:
         # Table names
         self.raw_table = f"{self.catalog_name}.{self.raw_schema}.iot_sensor_landing_layer"
         self.silver_table = f"{self.catalog_name}.{self.silver_schema}.iot_sensor_silver"
-        self.checkpoint_path = f"/tmp/checkpoints/{self.silver_schema}/iot_sensor_silver"
+        self.checkpoint_path = f"dbfs:/checkpoints/{self.silver_schema}/iot_sensor_silver"
         
     def define_schema(self):
         """Define the schema for the raw data"""
