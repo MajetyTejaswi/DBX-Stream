@@ -8,7 +8,7 @@ bundle:
 variables:
   catalog_name:
     description: "Unity Catalog name"
-    default: "classic_workspace"
+    default: "carbon_dev"
   raw_schema:
     description: "Raw/Bronze schema name"
     default: "raw"
@@ -18,7 +18,7 @@ variables:
   
 # Workspace configuration
 workspace:
-  host: "https://dbc-7101cfa0-6f12.cloud.databricks.com"
+  host: "https://dbc-12c64dfc-c142.cloud.databricks.com"
   root_path: "~/.bundle/${bundle.name}/${bundle.target}"
 
 # Include resources
@@ -32,7 +32,7 @@ targets:
     mode: development
     default: true
     workspace:
-      host: "https://dbc-7101cfa0-6f12.cloud.databricks.com"
+      host: "https://dbc-12c64dfc-c142.cloud.databricks.com"
       root_path: "~/.bundle/${bundle.name}/dev"
     
     variables:
@@ -51,11 +51,11 @@ targets:
   staging:
     mode: production
     workspace:
-      host: "https://dbc-7101cfa0-6f12.cloud.databricks.com"
+      host: "https://dbc-12c64dfc-c142.cloud.databricks.com"
       root_path: "~/.bundle/${bundle.name}/staging"
     
     variables:
-      catalog_name: "classic_workspace"
+      catalog_name: "carbon_dev"
       raw_schema: "raw"
       silver_schema: "silver"
     
@@ -73,11 +73,11 @@ targets:
   prod:
     mode: production
     workspace:
-      host: "https://dbc-7101cfa0-6f12.cloud.databricks.com"
+      host: "https://dbc-12c64dfc-c142.cloud.databricks.com"
       root_path: "~/.bundle/${bundle.name}/prod"
     
     variables:
-      catalog_name: "classic_workspace"
+      catalog_name: "carbon_dev"
       raw_schema: "raw"
       silver_schema: "silver"
     

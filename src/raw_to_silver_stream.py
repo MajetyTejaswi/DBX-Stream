@@ -39,9 +39,9 @@ class RawToSilverStream:
         self.spark.sql(f"USE CATALOG {self.catalog_name}")
         
         # Table names
-        self.raw_table = f"{self.catalog_name}.{self.raw_schema}.sensor_data_raw"
-        self.silver_table = f"{self.catalog_name}.{self.silver_schema}.sensor_data_silver"
-        self.checkpoint_path = f"/tmp/checkpoints/{self.silver_schema}/sensor_data_silver"
+        self.raw_table = f"{self.catalog_name}.{self.raw_schema}.iot_sensor_landing_layer"
+        self.silver_table = f"{self.catalog_name}.{self.silver_schema}.iot_sensor_silver"
+        self.checkpoint_path = f"/tmp/checkpoints/{self.silver_schema}/iot_sensor_silver"
         
     def define_schema(self):
         """Define the schema for the raw data"""
@@ -141,11 +141,13 @@ class RawToSilverStream:
     def write_stream(self, df):
         """
         Write streaming data to silver table
+        Creates the silver table automatically if it doesn't exist
         
         Args:
             df: Streaming DataFrame to write
         """
         logger.info(f"Writing stream to {self.silver_table}...")
+        logger.info("Silver table will be created automatically if it doesn't exist")
         
         # Write to Delta table with checkpointing
         query = (
@@ -189,7 +191,7 @@ def main():
     """Main entry point for the streaming job"""
     
     # Configuration - Update these values according to your Databricks setup
-    CATALOG_NAME = "classic_workspace"  # Replace with your catalog name
+    CATALOG_NAME = "carbon_dev"  # Replace with your catalog name
     RAW_SCHEMA = "raw"  # Your raw/bronze schema name
     SILVER_SCHEMA = "silver"  # Your silver schema name
     
