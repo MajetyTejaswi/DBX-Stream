@@ -51,10 +51,10 @@ DBX-Stream/
 ## 🔧 Configuration
 
 ### Databricks Setup
-- **Workspace**: `https://dbc-12c64dfc-c142.cloud.databricks.com`
-- **Catalog**: `carbon_dev`
-- **Raw Table**: `carbon_dev.raw.iot_sensor_landing_layer` (you created this)
-- **Silver Table**: `carbon_dev.silver.iot_sensor_silver` (auto-created by streaming)
+- **Workspace**: your workspace name
+- **Catalog**: your catalog name
+- **Raw Table**: your raw table name
+- **Silver Table**: autocreated as part of logic
 
 ### GitHub Secrets (Already configured)
 - `DATABRICKS_HOST` - Your workspace URL
@@ -88,21 +88,6 @@ All raw columns **plus**:
 ## 🚀 How to Use
 
 ### Step 1: Insert Data into Raw Table
-```sql
--- In Databricks SQL Editor
-INSERT INTO carbon_dev.raw.iot_sensor_landing_layer VALUES (
-  '2026-01-14T12:00:00Z',
-  'DEV-0001',
-  'PLANT_A',
-  41.8756,
-  -87.6312,
-  650.0,
-  4.2,
-  18.5,
-  62.0,
-  -68
-);
-```
 
 ### Step 2: Streaming Job Automatically Processes
 Your Databricks job monitors the raw table and processes new records within 10 seconds.
@@ -196,9 +181,3 @@ spark.streams.active  # Shows active streaming queries
 ✅ **Partitioned**: Optimized for date-based queries  
 ✅ **Checkpointed**: Exactly-once processing guarantee  
 ✅ **CI/CD**: Automated deployment on git push  
-
-## 🔗 Resources
-
-- [Databricks Structured Streaming Docs](https://docs.databricks.com/structured-streaming/index.html)
-- [Delta Lake Guide](https://docs.delta.io/)
-- [Unity Catalog Overview](https://docs.databricks.com/data-governance/unity-catalog/index.html)

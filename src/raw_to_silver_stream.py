@@ -41,7 +41,7 @@ class RawToSilverStream:
         # Table names
         self.raw_table = f"{self.catalog_name}.{self.raw_schema}.iot_sensor_landing_layer"
         self.silver_table = f"{self.catalog_name}.{self.silver_schema}.iot_sensor_silver"
-        self.checkpoint_path = f"dbfs:/checkpoints/{self.silver_schema}/iot_sensor_silver"
+        self.checkpoint_path = f"/tmp/checkpoints/{self.silver_schema}/iot_sensor_silver"
         
     def define_schema(self):
         """Define the schema for the raw data"""
@@ -192,7 +192,7 @@ def main():
     
     # Configuration - Update these values according to your Databricks setup
     CATALOG_NAME = "carbon_dev"  # Replace with your catalog name
-    RAW_SCHEMA = "raw"  # Your raw/bronze schema name
+    RAW_SCHEMA = "bronze"  # Your raw/bronze schema name
     SILVER_SCHEMA = "silver"  # Your silver schema name
     
     # Initialize and run the pipeline
