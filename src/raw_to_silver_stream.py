@@ -41,7 +41,8 @@ class RawToSilverStream:
         # Table names
         self.raw_table = f"{self.catalog_name}.{self.raw_schema}.iot_sensor_landing_layer"
         self.silver_table = f"{self.catalog_name}.{self.silver_schema}.iot_sensor_silver"
-        self.checkpoint_path = f"/tmp/checkpoints/{self.silver_schema}/iot_sensor_silver"
+        # Use Unity Catalog managed location for checkpoints (public DBFS root is disabled)
+        self.checkpoint_path = f"/Volumes/{self.catalog_name}/{self.silver_schema}/checkpoints/iot_sensor_silver"
         
     def define_schema(self):
         """Define the schema for the raw data"""
@@ -207,3 +208,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
